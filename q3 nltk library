@@ -1,0 +1,17 @@
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
+
+def morphological_analysis(text):
+    lemmatizer = WordNetLemmatizer()
+    return [lemmatizer.lemmatize(word, pos='v') for word, _ in nltk.pos_tag(word_tokenize(text))]
+
+text = "The quick brown foxes are jumping over the lazy dogs"
+lemmatized_words = morphological_analysis(text)
+
+print("Original text:", text)
+print("Lemmatized words:", lemmatized_words)
