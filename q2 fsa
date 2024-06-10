@@ -1,0 +1,25 @@
+class FiniteStateAutomaton:
+    def __init__(self):
+        self.state = 0
+
+    def transition(self, char):
+        if self.state == 0 and char == 'a':
+            self.state = 1
+        elif self.state == 1 and char == 'b':
+            self.state = 2
+        else:
+            self.state = 0 if char != 'a' else 1
+
+    def process_string(self, string):
+        self.state = 0  # Reset state
+        for char in string:
+            self.transition(char)
+        return self.state == 2
+
+# Example usage
+fsa = FiniteStateAutomaton()
+test_strings = ["ab", "aab", "babab", "aa", "aabb"]
+
+for string in test_strings:
+    result = fsa.process_string(string)
+    print(f"String '{string}' ends with 'ab': {result}")
