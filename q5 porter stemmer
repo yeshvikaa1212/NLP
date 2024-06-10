@@ -1,0 +1,19 @@
+import nltk
+from nltk.stem import PorterStemmer
+
+# Download NLTK data files (if not already downloaded)
+nltk.download('punkt')
+
+def stem_words(words):
+    # Initialize the Porter Stemmer
+    porter_stemmer = PorterStemmer()
+    # Stem each word in the list
+    stemmed_words = [porter_stemmer.stem(word) for word in words]
+    return stemmed_words
+
+# Example usage
+words = ["running", "runner", "ran", "easily", "fairly"]
+stemmed_words = stem_words(words)
+
+print("Original words:", words)
+print("Stemmed words:", stemmed_words)
