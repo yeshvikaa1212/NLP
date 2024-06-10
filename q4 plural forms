@@ -1,0 +1,11 @@
+class PluralFiniteStateMachine:
+    def pluralize(self, noun):
+        return noun + 'es' if noun.endswith(('s', 'x', 'z', 'ch', 'sh')) else noun + 's'
+
+# Example usage
+fsm = PluralFiniteStateMachine()
+
+# Test singular nouns
+nouns = ['cat', 'dog', 'fox', 'box', 'wish', 'buzz', 'church', 'bus']
+for noun in nouns:
+    print(f"Singular: {noun}, Plural: {fsm.pluralize(noun)}")
