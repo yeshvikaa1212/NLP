@@ -1,0 +1,25 @@
+import nltk
+from collections import defaultdict
+
+# Download necessary NLTK data files
+nltk.download('brown')
+nltk.download('universal_tagset')
+
+def train_model():
+    brown_corpus = nltk.corpus.brown.tagged_words(tagset='universal')
+    word_tag_counts = defaultdict(lambda: defaultdict(int))
+    for word, tag in brown_corpus:
+        word_tag_counts[word.lower()][tag] += 1
+    return {word: max(tags, key=tags.get) for word, tags in word_tag_counts.items()}
+
+def tag_text(text, model):
+    return [(word, model.get(word.lower(), 'NOUN')) for word in text.split()]
+
+# Train the model
+model = train_model()
+
+# Example usage
+text = "The quick brown fox jumps over the lazy dog"
+tagged_text = tag_text(text, model)
+
+print("Tagged text:", tagged_text)
