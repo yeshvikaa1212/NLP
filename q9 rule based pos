@@ -1,0 +1,33 @@
+import re
+
+def pos_tagging(text):
+    # Define a list of (regex, tag) tuples
+    patterns = [
+        (r'.*ing$', 'VBG'),  # gerunds
+        (r'.*ed$', 'VBD'),   # past tense verbs
+        (r'.*es$', 'VBZ'),   # 3rd person singular present verbs
+        (r'.*ould$', 'MD'),  # modals
+        (r'.*\'s$', 'POS'),  # possessive nouns
+        (r'.*s$', 'NNS'),    # plural nouns
+        (r'^-?[0-9]+(.[0-9]+)?$', 'CD'),  # cardinal numbers
+        (r'.*', 'NN')        # nouns (default)
+    ]
+
+    # Tokenize the text into words
+    words = text.split()
+    tagged_words = []
+
+    # Apply the rules to each word
+    for word in words:
+        for pattern, tag in patterns:
+            if re.match(pattern, word):
+                tagged_words.append((word, tag))
+                break
+
+    return tagged_words
+
+# Example usage
+text = "The quick brown fox jumps over the lazy dog"
+tagged_text = pos_tagging(text)
+
+print("Tagged text:", tagged_text)
