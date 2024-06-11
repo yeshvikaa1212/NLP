@@ -1,0 +1,19 @@
+import random
+
+def generate_text(text, start_word, num_words=20):
+    words = text.split()
+    bigrams = {words[i]: words[i+1] for i in range(len(words)-1)}
+    generated_text = [start_word]
+    for _ in range(num_words):
+        current_word = generated_text[-1]
+        next_word = bigrams.get(current_word)
+        if next_word:
+            generated_text.append(next_word)
+        else:
+            break
+    return ' '.join(generated_text)
+
+# Example usage
+text = "The quick brown fox jumps over the lazy dog"
+generated_text = generate_text(text, start_word="The", num_words=15)
+print("Generated text:", generated_text)
