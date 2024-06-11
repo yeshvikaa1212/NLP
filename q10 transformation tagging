@@ -1,0 +1,46 @@
+import re
+
+def initial_tagging(words):
+    # Initially tag all words as nouns (NN)
+    return [(word, 'NN') for word in words]
+
+def apply_transformation_rules(tagged_words):
+    # Define a set of transformation rules
+    rules = [
+        (r'(\bThe\b|\bA\b|\bAn\b)', 'NN', 'DT'),  # Determiners
+        (r'.*ing$', 'NN', 'VBG'),                 # Gerunds
+        (r'.*ed$', 'NN', 'VBD'),                  # Past tense verbs
+        (r'.*es$', 'NN', 'VBZ'),                  # 3rd person singular present verbs
+        (r'.*ould$', 'NN', 'MD'),                 # Modals
+        (r'.*\'s$', 'NN', 'POS'),                 # Possessive nouns
+        (r'.*s$', 'NN', 'NNS'),                   # Plural nouns
+        (r'^\d+$', 'NN', 'CD'),                   # Cardinal numbers
+        (r'.*ly$', 'NN', 'RB')                    # Adverbs
+    ]
+    
+    # Apply transformation rules
+    for i, (word, tag) in enumerate(tagged_words):
+        for pattern, old_tag, new_tag in rules:
+            if tag == old_tag and re.match(pattern, word):
+                tagged_words[i] = (word, new_tag)
+                break
+
+    return tagged_words
+
+def transformation_based_tagging(text):
+    # Tokenize the text into words
+    words = text.split()
+    
+    # Step 1: Initial tagging
+    tagged_words = initial_tagging(words)
+    
+    # Step 2: Apply transformation rules
+    tagged_words = apply_transformation_rules(tagged_words)
+    
+    return tagged_words
+
+# Example usage
+text = "The quick brown fox jumps over the lazy dog"
+tagged_text = transformation_based_tagging(text)
+
+print("Tagged text:", tagged_text)
