@@ -1,0 +1,19 @@
+def parse_fopc(expression):
+    tokens = expression.split()
+    if tokens[0] == 'forall' or tokens[0] == 'exists':
+        quantifier = tokens[0]
+        variable = tokens[1]
+        rest_expression = ' '.join(tokens[2:])
+        print(f"Parsed Expression: [{quantifier}, {variable}, {rest_expression}]")
+    else:
+        print(f"Parsed Expression: {tokens}")
+
+# Example usage
+expressions = [
+    "forall x (P(x) -> Q(x))",
+    "exists y (R(y) & Q(y))",
+    "(P(x) | Q(x)) <-> (Q(x) & P(x))"
+]
+
+for expr in expressions:
+    parse_fopc(expr)
