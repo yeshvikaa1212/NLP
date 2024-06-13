@@ -1,0 +1,28 @@
+import nltk
+from nltk.grammar import PCFG, Production
+
+# Define a probabilistic context-free grammar
+grammar = PCFG.fromstring("""
+    S -> NP VP [1.0]
+    NP -> Det N [0.5] | N [0.5]
+    VP -> V NP [0.7] | V [0.3]
+    Det -> 'the' [0.6] | 'a' [0.4]
+    N -> 'dog' [0.7] | 'cat' [0.3]
+    V -> 'chases' [0.4] | 'sees' [0.6]
+""")
+
+# Create a parser using the PCFG grammar
+parser = nltk.ViterbiParser(grammar)
+
+# Function to parse a sentence and print parse trees with probabilities
+def parse_sentence(sentence):
+    tokens = sentence.split()
+    parses = parser.parse_all(tokens)
+    
+    for parse in parses:
+        print("Parse Tree:")
+        parse.pretty_print()
+
+# Example usage
+sentence = "the dog chases"
+parse_sentence(sentence)
