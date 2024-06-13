@@ -1,0 +1,36 @@
+# Define the context-free grammar
+grammar = {
+    'S': [['NP', 'VP']],
+    'NP': [['Det', 'N']],
+    'VP': [['V', 'NP'], ['V']],
+    'Det': [['the'], ['a']],
+    'N': [['dog'], ['cat']],
+    'V': [['chases'], ['sees']]
+}
+
+# Recursive parse function
+def parse(tokens, symbol):
+    if not tokens:
+        return symbol == ''
+    if symbol not in grammar:
+        return (tokens[1:], [symbol]) if tokens[0] == symbol else None
+    
+    for production in grammar[symbol]:
+        result = (tokens, [])
+        for sym in production:
+            result = parse(result[0], sym)
+            if result is None:
+                break
+            result[1].append(result[1])
+        if result is not None:
+            return result[0], [symbol] + result[1]
+    return None
+
+# Example usage
+sentence = "the dog chases a cat".split()
+result = parse(sentence, 'S')
+
+if result and not result[0]:
+    print("Parse tree:", result[1])
+else:
+    print("Parsing failed.")
