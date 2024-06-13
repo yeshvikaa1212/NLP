@@ -1,0 +1,26 @@
+import spacy
+
+# Load SpaCy model for Named Entity Recognition
+nlp = spacy.load('en_core_web_sm')
+
+# Function to perform Named Entity Recognition (NER) on text
+def perform_ner(text):
+    doc = nlp(text)
+    entities = []
+    for ent in doc.ents:
+        entities.append((ent.text, ent.label_))
+    return entities
+
+# Example text
+text = """
+Apple Inc. is an American multinational technology company headquartered in Cupertino, California.
+It designs, develops, and sells consumer electronics, computer software, and online services.
+"""
+
+# Perform Named Entity Recognition (NER) on the example text
+entities = perform_ner(text)
+
+# Print the identified entities and their labels
+print("Named Entities:")
+for entity, label in entities:
+    print(f"Entity: {entity}, Label: {label}")
