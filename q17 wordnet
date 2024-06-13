@@ -1,0 +1,24 @@
+import nltk
+from nltk.corpus import wordnet
+
+# Download WordNet corpus if not already downloaded
+nltk.download('wordnet')
+
+# Function to explore word meanings using WordNet
+def explore_word_meanings(word):
+    synsets = wordnet.synsets(word)
+    
+    if not synsets:
+        print(f"No synsets found for '{word}'.")
+    else:
+        print(f"Synsets found for '{word}':")
+        for synset in synsets:
+            print(f"Synset Name: {synset.name()}")
+            print(f"POS Tag: {synset.pos()}")
+            print(f"Definition: {synset.definition()}")
+            print(f"Examples: {synset.examples()}")
+            print()
+
+# Example usage
+word = "computer"
+explore_word_meanings(word)
