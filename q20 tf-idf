@@ -1,0 +1,41 @@
+import string
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Sample documents
+documents = [
+    "The quick brown fox jumps over the lazy dog.",
+    "A quick brown dog outpaces a quick fox.",
+    "The slow brown cat sleeps next to the warm dog.",
+    "A fast brown dog jumps over the lazy fox."
+]
+
+# Function to preprocess text: tokenize and remove punctuation
+def preprocess(text):
+    text = text.lower()
+    tokens = text.translate(str.maketrans("", "", string.punctuation)).split()
+    return tokens
+
+# TF-IDF vectorizer
+vectorizer = TfidfVectorizer(tokenizer=preprocess, stop_words='english')
+
+# Compute TF-IDF scores
+tfidf_matrix = vectorizer.fit_transform(documents)
+
+# User query
+query = "quick brown fox"
+
+# Preprocess query and compute TF-IDF vector
+query_tfidf = vectorizer.transform([query])
+
+# Compute cosine similarity between query and documents
+cosine_similarities = cosine_similarity(query_tfidf, tfidf_matrix).flatten()
+
+# Rank documents based on similarity scores
+document_scores = [(score, document) for score, document in zip(cosine_similarities, documents)]
+document_scores.sort(reverse=True, key=lambda x: x[0])
+
+# Print ranked documents
+print("Ranked Documents:")
+for i, (score, document) in enumerate(document_scores, start=1):
+    print(f"Rank {i}: Score = {score:.3f}, Document = '{document}'")
