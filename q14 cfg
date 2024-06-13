@@ -1,0 +1,41 @@
+class AgreementChecker:
+    def __init__(self, grammar):
+        self.grammar = grammar
+
+    def check_agreement(self, sentence):
+        for rule in self.grammar:
+            if isinstance(rule, tuple) and len(rule) == 3:
+                lhs, rhs1, rhs2 = rule
+                if lhs in self.grammar and rhs1 in self.grammar and rhs2 in self.grammar:
+                    if all(word in sentence for word in self.grammar[lhs]) and \
+                       all(word in sentence for word in self.grammar[rhs1]) and \
+                       all(word in sentence for word in self.grammar[rhs2]):
+                        return True
+        return False
+
+# Example usage
+grammar = {
+    ('S', 'NP', 'VP'): None,
+    ('NP', 'Det', 'N'): None,
+    ('VP', 'V', 'NP'): None,
+    'Det': ['the', 'a'],
+    'N': ['dog', 'cat'],
+    'V': ['chases', 'sees']
+}
+
+checker = AgreementChecker(grammar)
+
+# Test sentences
+sentences = [
+    ['the', 'dog', 'chases'],
+    ['a', 'cat', 'chases'],
+    ['the', 'dog', 'sees'],
+    ['a', 'cat', 'sees'],
+    ['the', 'dog', 'chase'],
+]
+
+for sentence in sentences:
+    if checker.check_agreement(sentence):
+        print(f"Sentence {' '.join(sentence)} agrees in grammar.")
+    else:
+        print(f"Sentence {' '.join(sentence)} does not agree in grammar.")
