@@ -1,0 +1,31 @@
+import re
+
+# Define patterns for different dialog acts
+dialog_acts = {
+    'greeting': r'\b(hello|hi|hey|greetings)\b',
+    'question': r'\b(who|what|when|where|why|how)\b.*\?',
+    'statement': r'.*\.',
+    'farewell': r'\b(goodbye|bye|see you|later)\b'
+}
+
+# Function to recognize dialog acts
+def recognize_dialog_act(sentence):
+    for act, pattern in dialog_acts.items():
+        if re.search(pattern, sentence, re.IGNORECASE):
+            return act
+    return 'unknown'
+
+# Example dialog
+dialog = [
+    "Hello! How are you?",
+    "I'm doing well, thank you. How about you?",
+    "I'm good too. What are you up to?",
+    "Just working on a project.",
+    "Cool. See you later!",
+    "Goodbye!"
+]
+
+# Recognize dialog acts in the dialog
+for sentence in dialog:
+    act = recognize_dialog_act(sentence)
+    print(f"Sentence: {sentence}\nDialog Act: {act}\n")
