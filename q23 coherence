@@ -1,0 +1,21 @@
+import spacy
+
+# Load spaCy model
+nlp = spacy.load("en_core_web_sm")
+
+# Function to calculate average similarity between consecutive sentences
+def evaluate_coherence(text):
+    doc = nlp(text)
+    sentences = list(doc.sents)
+    similarities = [
+        sentences[i].similarity(sentences[i + 1])
+        for i in range(len(sentences) - 1)
+    ]
+    return sum(similarities) / len(similarities) if similarities else 1.0
+
+# Example text
+text = "John went to the store. He bought some milk. The cat sat on the mat. The sun is shining brightly."
+
+# Evaluate coherence
+coherence_score = evaluate_coherence(text)
+print(f"Coherence Score: {coherence_score:.2f}")
