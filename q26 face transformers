@@ -1,0 +1,26 @@
+from transformers import MarianMTModel, MarianTokenizer
+
+# Load the pre-trained model and tokenizer
+model_name = 'Helsinki-NLP/opus-mt-en-fr'
+tokenizer = MarianTokenizer.from_pretrained(model_name)
+model = MarianMTModel.from_pretrained(model_name)
+
+# Function to translate English text to French
+def translate_to_french(text):
+    # Tokenize the input text
+    tokens = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
+    
+    # Perform the translation
+    translated_tokens = model.generate(**tokens)
+    
+    # Decode the translated tokens
+    translated_text = tokenizer.decode(translated_tokens[0], skip_special_tokens=True)
+    return translated_text
+
+# Example English text
+english_text = "Hello, how are you?"
+
+# Translate to French
+french_text = translate_to_french(english_text)
+print("English Text:", english_text)
+print("Translated French Text:", french_text)
